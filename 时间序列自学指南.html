@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间序列分析考纲 - 完整版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #1a2980 0%, #26d0ce 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        
+        .main-content {
+            flex: 2;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+        }
+        
+        h2 {
+            color: #1a2980;
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #26d0ce;
+        }
+        
+        h3 {
+            color: #1a2980;
+            margin: 20px 0 12px;
+        }
+        
+        .chapter {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .chapter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .knowledge-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: #1a2980;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "•";
+            color: #26d0ce;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+        
+        .memory {
+            background: #ffecef;
+            color: #e91e63;
+        }
+        
+        .derive {
+            background: #e6f7ff;
+            color: #1890ff;
+        }
+        
+        .practice {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 10px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1a2980;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .nav-tabs li {
+            margin-bottom: 0;
+        }
+        
+        .nav-tabs a {
+            padding: 10px 20px;
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .nav-tabs a.active {
+            color: #1a2980;
+            border-bottom: 3px solid #1a2980;
+        }
+        
+        .chapter-content {
+            display: none;
+        }
+        
+        .chapter-content.active {
+            display: block;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a2980;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top:hover {
+            background: #26d0ce;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>时间序列分析考纲与知识点分类</h1>
+            <p class="subtitle">基于11个文档全覆盖，包含记忆、推导与实操知识点</p>
+        </header>
+        
+        <div class="content">
+            <div class="main-content">
+                <ul class="nav-tabs">
+                    <li><a href="#" class="active" onclick="showChapter('ch1-5')">1-5章</a></li>
+                    <li><a href="#" onclick="showChapter('ch6-11')">6-11章</a></li>
+                </ul>
+                
+                <div id="ch1-5" class="chapter-content active">
+                    <h2>时间序列分析考纲 (1-5章)</h2>
+                    
+                    <div class="chapter">
+                        <h3>一、绪论（文档10：绪论.pdf）</h3>
+                        <ul>
+                            <li><strong>时间序列基本概念</strong>：时间序列的定义、分类、核心目标</li>
+                            <li><strong>时间序列分析流程与应用</strong>：经典分析流程、典型应用场景</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>二、时间序列的随机过程基础与平稳性（文档1：ch04.pdf）</h3>
+                        <ul>
+                            <li><strong>时间序列的概率化定义</strong>：随机序列与观察值序列的数学表达</li>
+                            <li><strong>平稳性定义与判别</strong>：严平稳、宽平稳及其关系</li>
+                            <li><strong>时间序列核心统计量</strong>：序列均值、自协方差函数、自相关系数</li>
+                            <li><strong>特殊随机过程与分解定理</strong>：纯随机序列、Wold分解、Cramer分解、延迟算子</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>三、线性过程与AR/MA/ARMA/ARIMA模型（文档2：ch05.pdf）</h3>
+                        <ul>
+                            <li><strong>线性过程</strong>：定义、平稳性条件、可逆性条件</li>
+                            <li><strong>AR模型</strong>：定义、平稳性判别、统计性质</li>
+                            <li><strong>MA模型</strong>：定义、可逆性条件、统计性质</li>
+                            <li><strong>ARMA模型</strong>：定义、统计性质</li>
+                            <li><strong>ARIMA模型</strong>：定义、差分阶数意义</li>
+                            <li><strong>模型预测</strong>：最优预测准则、预测误差、递推预测</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>四、时间序列模型的检验、拟合与拓展（文档3：ch06.pdf）</h3>
+                        <ul>
+                            <li><strong>模型定阶</strong>：差分阶数d的识别、ARMA(p,q)的p,q确定</li>
+                            <li><strong>模型参数估计</strong>：矩估计、最小二乘估计、极大似然估计</li>
+                            <li><strong>模型选择准则</strong>：AIC、AICc、BIC</li>
+                            <li><strong>假设检验</strong>：纯随机检验、平稳性检验</li>
+                            <li><strong>模型拓展</strong>：动态回归模型、传递函数模型、ARMAX模型、干预模型、ARCH模型</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>五、季节性时间序列分析（文档4：ch07.pdf）</h3>
+                        <ul>
+                            <li><strong>时间序列因素分解</strong>：四大因素、分解模型</li>
+                            <li><strong>季节效应提取</strong>：加法模型季节指数、乘法模型季节指数</li>
+                            <li><strong>经典季节调整模型</strong>：X11模型、SEATS、STL分解</li>
+                            <li><strong>季节性ARIMA模型</strong>：SARIMA定义</li>
+                            <li><strong>Prophet方法</strong>：序列分解、趋势建模、周期建模、假日建模</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="ch6-11" class="chapter-content">
+                    <h2>时间序列分析考纲 (6-11章)</h2>
+                    
+                    <div class="chapter">
+                        <h3>六、状态空间模型与机器学习预测（文档5：ch08.pdf）</h3>
+                        <ul>
+                            <li><strong>状态空间模型</strong>：系统方程与观测方程定义、可观测性判别条件</li>
+                            <li><strong>卡尔曼滤波</strong>：核心思想、预测递推公式、状态重构公式</li>
+                            <li><strong>机器学习预测方法</strong>：回归模型、降维方法、集成学习</li>
+                            <li><strong>多步预测策略</strong>：递归预测、直接预测、混合策略</li>
+                            <li><strong>竞赛实践（M5竞赛）</strong>：数据特点、核心方法、Tweedie损失处理零膨胀数据</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>七、时间序列深度学习模型（文档6：ch09.pdf）</h3>
+                        <ul>
+                            <li><strong>序列模型（RNN/LSTM）</strong>：RNN结构、LSTM门结构、DeepAR概率预测、MQ-RNN分位数预测</li>
+                            <li><strong>卷积模型（TCN）</strong>：因果卷积、膨胀卷积、残差连接</li>
+                            <li><strong>注意力模型（Transformer）</strong>：自注意力机制、位置编码、LogSparse、Informer、AutoFormer</li>
+                            <li><strong>其他深度学习模型</strong>：N-BEATS、NHITS、LSTNet</li>
+                            <li><strong>混合与集成模型</strong>：ES-RNN混合模型、FFORMA元学习、数据增强技术</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>八、进阶线性模型与归一化（文档7：ch10.pdf）</h3>
+                        <ul>
+                            <li><strong>进阶线性模型</strong>：DLinear、RLinear、TSMixer全MLP架构</li>
+                            <li><strong>归一化方法</strong>：RevIN可逆实例归一化、SAN切片自适应归一化、SIN选择性可解释归一化</li>
+                            <li><strong>通道策略（CI vs CD）</strong>：通道依赖与通道独立的定义及优缺点</li>
+                            <li><strong>Transformer变体</strong>：PathTST、CrossFormer、iTransformer、SOFTS</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>九、时序表示学习与通用模型（文档8：ch11.pdf）</h3>
+                        <ul>
+                            <li><strong>自监督时序表示学习</strong>：TS2Vec时间对比损失、CoST趋势与季节解纠缠、SimMTM掩码时序建模</li>
+                            <li><strong>通用任务模型</strong>：TimesNet建模时序2D变化、Meta-Transformer多模态统一</li>
+                            <li><strong>通用预测模型</strong>：零样本预测、少样本预测、迁移学习</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>十、时间序列评价与预处理（文档11：时间序列评价和预处理.pdf）</h3>
+                        <ul>
+                            <li><strong>数据预处理</strong>：缺失值处理、异常值检测与处理、数据转换（Box-Cox、归一化/标准化）</li>
+                            <li><strong>评价指标</strong>：误差指标（MAE、MSE、RMSE）、相对误差指标（SMAPE、MAPE）、综合指标（OWA、MASE）</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chapter">
+                        <h3>十一、时间序列基础预测方法（文档12：时间序列的基础预测方法.pdf）</h3>
+                        <ul>
+                            <li><strong>朴素预测方法</strong>：朴素预测、带漂移的朴素预测、季节朴素预测</li>
+                            <li><strong>滑动平均预测</strong>：简单滑动平均（SMA）、加权滑动平均（WMA）</li>
+                            <li><strong>指数平滑预测</strong>：简单指数平滑（SES）、Holt线性趋势平滑、Holt-Winters季节平滑</li>
+                            <li><strong>趋势外推预测</strong>：线性趋势、指数趋势、多项式趋势</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">文档数量</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">知识类型</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">覆盖率</div>
+                    </div>
+                </div>
+                
+                <h2>知识点分类</h2>
+                
+                <div class="knowledge-grid">
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>记忆类知识点</h3>
+                        </div>
+                        <ul>
+                            <li>时间序列定义与分类</li>
+                            <li>严平稳与宽平稳定义</li>
+                            <li>AR/MA/ARMA模型定义</li>
+                            <li>模型选择准则公式</li>
+                            <li>检验方法核心思想</li>
+                        </ul>
+                        <span class="tag memory">记忆</span>
+                    </div>
+                    
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h3>推导类知识点</h3>
+                        </div>
+                        <ul>
+                            <li>自协方差函数性质推导</li>
+                            <li>AR(1)模型统计量推导</li>
+                            <li>MA(1)模型统计量推导</li>
+                            <li>卡尔曼滤波公式推导</li>
+                            <li>损失函数优化推导</li>
+                        </ul>
+                        <span class="tag derive">推导</span>
+                    </div>
+                    
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h3>实操类知识点</h3>
+                        </div>
+                        <ul>
+                            <li>ACF/PACF图分析</li>
+                            <li>参数估计实现</li>
+                            <li>模型预测实现</li>
+                            <li>Python/R工具使用</li>
+                            <li>模型性能评估</li>
+                        </ul>
+                        <span class="tag practice">实操</span>
+                    </div>
+                </div>
+                
+                <h3>学习建议</h3>
+                <ul>
+                    <li>先掌握记忆类知识点，建立知识框架</li>
+                    <li>通过推导加深对公式和模型的理解</li>
+                    <li>多动手实践，使用真实数据练习</li>
+                    <li>结合多种资源学习（教材、论文、在线课程）</li>
+                    <li>定期复习，避免遗忘</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        function showChapter(chapterId) {
+            // 隐藏所有章节内容
+            document.querySelectorAll('.chapter-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 显示选中的章节内容
+            document.getElementById(chapterId).classList.add('active');
+            
+            // 更新导航标签状态
+            document.querySelectorAll('.nav-tabs a').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 为当前选中的标签添加active类
+            event.currentTarget.classList.add('active');
+        }
+        
+        // 返回顶部功能
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    </script>
+</body>
+</html>
